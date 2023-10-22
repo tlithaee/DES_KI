@@ -1,4 +1,5 @@
 const CryptoJS = require('crypto-js');
+const readlineSync = require('readline-sync');
 
 // Define DES class
 class DES {
@@ -7,10 +8,10 @@ class DES {
         this.key = CryptoJS.enc.Hex.parse(key);
     }
 
-    encrypt(plaintext) {
+    encrypt(userInput) {
         // Perform DES encryption on plaintext
         const encrypted = CryptoJS.DES.encrypt(
-            plaintext,
+            userInput,
             this.key,
             { mode: CryptoJS.mode.ECB }
         );
@@ -37,16 +38,19 @@ class DES {
 
 // Define DES key and plaintext
 const key = "0123456789abcdef";
-const plaintext = "Hello, world!";
+// const plaintext = "Hello, world!";
+
+const userInput = readlineSync.question('Masukkan yang ingin di decrypt : ');
+// console.log('Anda memasukkan: ' + userInput);
 
 // Perform DES encryption
 const des = new DES(key);
-const ciphertext = des.encrypt(plaintext);
+const ciphertext = des.encrypt(userInput);
 
 // Perform DES decryption
 const decrypted = des.decrypt(ciphertext);
 
 // Print results
-console.log("Plaintext: ", plaintext);
+console.log("Plaintext: ", userInput);
 console.log("Ciphertext: ", ciphertext);
 console.log("Decrypted: ", decrypted);

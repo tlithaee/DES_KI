@@ -1,5 +1,6 @@
 const CryptoJS = require('crypto-js');
 const readlineSync = require('readline-sync');
+const crypto = require('crypto');
 
 // Define DES class
 class DES {
@@ -37,11 +38,9 @@ class DES {
 }
 
 // Define DES key and plaintext
+// Menghasilkan kunci acak dengan panjang 64-bit (16 karakter heksadesimal)
 const key = "0123456789abcdef";
-// const plaintext = "Hello, world!";
-
-const userInput = readlineSync.question('Masukkan yang ingin di decrypt : ');
-// console.log('Anda memasukkan: ' + userInput);
+const userInput = readlineSync.question('Masukkan text yang ingin di-encrypt : ');
 
 // Perform DES encryption
 const des = new DES(key);
@@ -51,6 +50,5 @@ const ciphertext = des.encrypt(userInput);
 const decrypted = des.decrypt(ciphertext);
 
 // Print results
-console.log("Plaintext: ", userInput);
 console.log("Ciphertext: ", ciphertext);
 console.log("Decrypted: ", decrypted);

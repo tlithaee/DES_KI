@@ -64,7 +64,7 @@ Bit ke 1 dari original plaintext bakal menulis ulang isi dari block 40 posisi bi
 - Mengconvert lagi dari 48-bit RPT jadi 32-bit karena LPT nya masih 32-bit
 - Steps :
     - Misalkan hasil dari XOR adalah 011011, karena diambil 4-bit di tengah sehingga fokus di 1001, sedangkan 2-bit di depan dan belakang menyatu
-![Alt text](image.png)
+![Alt text](images/12.png)
 
 4. **P-box (permutation)**
 - Output dari S-box itu dikasih ke P-box
@@ -181,9 +181,37 @@ Fungsi `bin(num)` mengonversi bilangan desimal `num` ke representasi binernya
 
 `Metode replace("0b", "")` digunakan untuk menghapus awalan "0b" yang muncul dalam representasi biner yang dihasilkan oleh fungsi `bin()`.
 
+`if(len(res) % 4 != 0):` = mengecek apakah panjang string binernya tidak habis dibagi oleh 4
+
+`counter = (4 * (div + 1)) - len(res)` = selisih antara panjang string biner setelah penambahan digit 0 dan panjang string biner awal (sebelum penambahan digit 0)
 
 ---
 
+```
+def permute(k, arr, n):
+	permutation = ""
+	for i in range(0, n):
+		permutation = permutation + k[arr[i] - 1]
+	return permutation
+```
+Fungsi `permute` dengan parameter `k` sebagai input, `arr` sebagai urutan permutasi, dan `n` sebagai panjang array untuk menghitung permutasi
+
+`k[arr[i] - 1]` = melakukan permutasi pada input `k`
+`[arr[i] - 1]`  digunakan karena indeks dalam pemrograman dimulai dari 0, sedangkan dalam konteks permutasi, indeks dimulai dari 1.
+
+---
+
+```
+def shift_left(k, nth_shifts):
+	s = ""
+	for i in range(nth_shifts):
+		for j in range(1, len(k)):
+			s = s + k[j]
+		s = s + k[0]
+		k = s
+		s = ""
+	return k
+```
 ## Reference
 
 https://www.geeksforgeeks.org/data-encryption-standard-des-set-1/

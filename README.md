@@ -32,6 +32,21 @@ Setiap bit ke 8 dari original key itu bakal dihapuskan dan itu akan menghasilkan
 
 ### 16 Rounds of Encryption
 
+1. Key transformation (56-bit key)
+- tiap key dipecah jadi 2, masing-masing 28-bits 
+- Shifting posisi bit itu tergantung dari round-nya
+![Alt text](images/4.png)
+
+2. Compression Permutation
+- 
+
+
+3. Expansion Permutation dari plain text dan XOR 
+4. S-box substitution
+5. P-box (permutation)
+6. XOR dan swap
+
+
 ## Code
 ```
 const CryptoJS = require('crypto-js');

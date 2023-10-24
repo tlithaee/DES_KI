@@ -22,8 +22,6 @@ def hex2bin(s):
 	return bin
 
 # Binary to hexadecimal conversion
-
-
 def bin2hex(s):
 	mp = {"0000": '0',
 		"0001": '1',
@@ -53,8 +51,6 @@ def bin2hex(s):
 	return hex
 
 # Binary to decimal conversion
-
-
 def bin2dec(binary):
 
 	binary1 = binary
@@ -67,8 +63,6 @@ def bin2dec(binary):
 	return decimal
 
 # Decimal to binary conversion
-
-
 def dec2bin(num):
 	res = bin(num).replace("0b", "")
 	if(len(res) % 4 != 0):
@@ -80,8 +74,6 @@ def dec2bin(num):
 	return res
 
 # Permute function to rearrange the bits
-
-
 def permute(k, arr, n):
 	permutation = ""
 	for i in range(0, n):
@@ -302,5 +294,3 @@ rkb_rev = rkb[::-1]
 rk_rev = rk[::-1]
 text = bin2hex(encrypt(cipher_text, rkb_rev, rk_rev))
 print("Plain Text : ", text)
-
-# This code is contributed by Aditya Jain

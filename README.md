@@ -25,6 +25,13 @@ Setiap bit ke 8 dari original key itu bakal dihapuskan dan itu akan menghasilkan
 ![Alt text](images/3.png)
 
 1. 64-bit plain text diberikan ke inisial permutasi (IP)
+
+![Alt text](images/5.png)
+
+Bit ke 58 dari original plaintext block bakal menulis ulang isi dari block pertama posisi bit
+
+Bit ke 1 dari original plaintext bakal menulis ulang isi dari block 40 posisi bit
+
 2. IP terbagi 2 blok permutasi menjadi Left Plain Text (LPT) dan Right Plain Text (RPT)
 3. LPT dsn RPT akan menghasilkan 16-round proses enkripsi
 4. LPT dan RPT akan bergabung kembali dan menghasilkan blok yang tergabung
@@ -37,12 +44,28 @@ Setiap bit ke 8 dari original key itu bakal dihapuskan dan itu akan menghasilkan
 - Shifting posisi bit itu tergantung dari round-nya
 ![Alt text](images/4.png)
 
-2. Compression Permutation
-- 
-
+- Compression Permutation
+    - 56-bit input dengan shifting posisi bit
+    - Menghasilkan 48-bit key
 
 3. Expansion Permutation dari plain text dan XOR 
+- 32-bit RPT di expand jadi 48-bit karena bit yang lain 48-bit
+- Steps :
+    - 32-bit RPT dibagi menjadi 8-block yang masing-masing berisi 4-bit
+![Alt text](images/6.png)
+
+    - Lalu setiap 4-bit block diexpand lagi menjadi 6-bit tiap block
+![Alt text](images/7.png)
+    
+    - 48-bit RPT di XORkan dengan 48-bit key dan outputnya diberikan ke S-box
+![Alt text](images/8.png)
+
 4. S-box substitution
+- Mengconvert lagi dari 48-bit RPT jadi 32-bit karena LPT nya masih 32-bit
+- Steps :
+    - Misalkan hasil dari XOR adalah 011011, karena diambil 4-bit di tengah sehingga fokus di 1001, sedangkan 2-bit di depan dan belakang menyatu
+![Alt text](image.png)
+
 5. P-box (permutation)
 6. XOR dan swap
 

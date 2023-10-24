@@ -7,36 +7,53 @@
 ## Daftar Isi
 - [Opening](#opening)
 - [Code](#kode)
-  - [Script 01](#Script-01)
-  - [Explanation 01](#Explanation-01)
-  - [Script 02](#Script-01)
-  - [Explanation 02](#Explanation-01)
 - [Reference](#Referensi)
 
 ## Opening
 
 ![image](images/1.png)
+ada 2 input, yaitu 56-bit key dan 64-bit plain text
+
+### Key Discarding Process
+
+![Alt text](images/2.png)
+
+Setiap bit ke 8 dari original key itu bakal dihapuskan dan itu akan menghasilkan 56-bit key
+
+### Steps of DES
+
+![Alt text](images/3.png)
+
+1. 64-bit plain text diberikan ke inisial permutasi (IP)
+2. IP terbagi 2 blok permutasi menjadi Left Plain Text (LPT) dan Right Plain Text (RPT)
+3. LPT dsn RPT akan menghasilkan 16-round proses enkripsi
+4. LPT dan RPT akan bergabung kembali dan menghasilkan blok yang tergabung
+5. 64-bit cipher text blok telah tergenerasi
+
+### 16 Rounds of Encryption
 
 ## Code
-### Script 01
 ```
 const CryptoJS = require('crypto-js');
 const readlineSync = require('readline-sync');
 ```
-
-### Explanation 01
 Berikut adalah library yang diperlukan dalam penyusunan kode DES. 
 1. `const readlineSync = require('readline-sync');` = untuk mengambil input user
 2. `const CryptoJS = require('crypto-js');` = library javascript buat standar crypto
 
-### Script 02
 ```
 class DES {
     constructor(key) {
         // Initialize DES with key
         this.key = CryptoJS.enc.Hex.parse(key);
     }
+```
 
+Dibuat fungsi `class` DES
+1. `constructor(key)` = membuat constructor untuk key nanti
+2. `this.key = CryptoJS.enc.Hex.parse(key);` = key yang tadi di-refer dan diparse menggunakan fungsi dari library `CryptoJS`
+
+```
     encrypt(userInput) {
         // Perform DES encryption on plaintext
         const encrypted = CryptoJS.DES.encrypt(
@@ -48,28 +65,13 @@ class DES {
         // Return ciphertext as hex string
         return encrypted.ciphertext.toString();
     }
-
-    decrypt(ciphertext) {
-        // Parse ciphertext from hex string
-        const ciphertextHex = CryptoJS.enc.Hex.parse(ciphertext);
-
-        // Perform DES decryption on ciphertext
-        const decrypted = CryptoJS.DES.decrypt(
-            { ciphertext: ciphertextHex },
-            this.key,
-            { mode: CryptoJS.mode.ECB }
-        );
-
-        // Return decrypted plaintext as UTF-8 string
-        return decrypted.toString(CryptoJS.enc.Utf8);
-    }
-}
 ```
 
-### Explanation 02
-Berikut adalah library yang diperlukan dalam penyusunan kode DES. 
-1. `const readlineSync = require('readline-sync');` = untuk mengambil input user
-2. `const CryptoJS = require('crypto-js');` = library javascript buat standar crypto
+Lalu ada fungsi `encrypt` yang mengambil data dari `userInput`
+1. `const encrypted = CryptoJS.DES.encrypt` = mendeklarasikan variabel
+2. `userInput`, `this.key`, `{ mode: CryptoJS.mode.ECB }` = variabel yang akan dienkripsi, berisi key dari enkripsi, dan mendeskripsikan mode enkripsi yang dipakai
+3. `return encrypted.ciphertext.toString();` = nilai hasil enkripsinya dikembalikan dalam bentuk hex string
+
 
 ## Reference
 ```

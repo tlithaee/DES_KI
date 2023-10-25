@@ -47,6 +47,7 @@ Bit ke 1 dari original plaintext bakal menulis ulang isi dari block 40 posisi bi
 - Compression Permutation
     - 56-bit input dengan shifting posisi bit
     - Menghasilkan 48-bit key
+![Alt text](images/13.png)
 
 2. **Expansion Permutation dari plain text dan XOR**
 - 32-bit RPT di expand jadi 48-bit karena bit yang lain 48-bit

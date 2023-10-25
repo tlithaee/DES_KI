@@ -227,7 +227,6 @@ def encrypt(pt, rkb, rk):
 	cipher_text = permute(combine, final_perm, 64)
 	return cipher_text
 
-
 pt = "123456ABCD132536"
 key = "AABB09182736CCDD"
 

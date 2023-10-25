@@ -212,6 +212,115 @@ def shift_left(k, nth_shifts):
 		s = ""
 	return k
 ```
+Fungsi `shift_left` dengan parameter `k` sebagai input yang akan di shift ke kiri dan `n` sebagai jumlah berapa kali shift ke kiri akan dilakukan
+
+Karakter pertama dari string input awal `(k[0])` ditambahkan ke `s` untuk menyelesaikan shift ke kiri
+
+---
+
+```
+def xor(a, b):
+	ans = ""
+	for i in range(len(a)):
+		if a[i] == b[i]:
+			ans = ans + "0"
+		else:
+			ans = ans + "1"
+	return ans
+```
+Fungsi `xor` dengan parameter `a` dan `b` yang akan dibandingkan
+
+---
+
+```
+def encrypt(pt, rkb, rk):
+	pt = hex2bin(pt)
+
+	# Initial Permutation
+	pt = permute(pt, initial_perm, 64)
+	print("After initial permutation", bin2hex(pt))
+
+	# Splitting
+	left = pt[0:32]
+	right = pt[32:64]
+	for i in range(0, 16):
+		# Expansion D-box: Expanding the 32 bits data into 48 bits
+		right_expanded = permute(right, exp_d, 48)
+
+		# XOR RoundKey[i] and right_expanded
+		xor_x = xor(right_expanded, rkb[i])
+
+		# S-box: substituting the value from s-box table by calculating row and column
+		sbox_str = ""
+		for j in range(0, 8):
+			row = bin2dec(int(xor_x[j * 6] + xor_x[j * 6 + 5]))
+			col = bin2dec(
+				int(xor_x[j * 6 + 1] + xor_x[j * 6 + 2] + xor_x[j * 6 + 3] + xor_x[j * 6 + 4]))
+			val = sbox[j][row][col]
+			sbox_str = sbox_str + dec2bin(val)
+
+		# Straight D-box: After substituting rearranging the bits
+		sbox_str = permute(sbox_str, per, 32)
+
+		# XOR left and sbox_str
+		result = xor(left, sbox_str)
+		left = result
+
+		# Swapper
+		if(i != 15):
+			left, right = right, left
+		print("Round ", i + 1, " ", bin2hex(left),
+			" ", bin2hex(right), " ", rk[i])
+
+	# Combination
+	combine = left + right
+
+	# Final permutation: final rearranging of bits to get cipher text
+	cipher_text = permute(combine, final_perm, 64)
+	return cipher_text
+```
+
+Fungsi `encrypt` melakukan konversi plaintext ke biner dan initial permutation, iterasi 16 round, dan kombinasi & final permutation
+
+> S-box 
+
+`for j in range(0, 8):` ada 8 S-box yang masing-masing mengonversi 6-bit input jadi 4-bit output
+
+`row = bin2dec(int(xor_x[j * 6] + xor_x[j * 6 + 5]))` mengambil 2-bit pertama (indeks 0 dan 5) dari input 6-bit
+
+`col = bin2dec(int(xor_x[j * 6 + 1] + xor_x[j * 6 + 2] + xor_x[j * 6 + 3] + xor_x[j * 6 + 4]))` mengambil 4-bit berikutnya (indeks 1 - 4) dari input 6 bit
+
+> Swapper
+
+`print("Round ", i + 1, " ", bin2hex(left), " ", bin2hex(right), " ", rk[i])` mencetak informasi round, nilai blok kiri, nilai blok kanan, dan nilai subkunci (round key)
+
+---
+
+```
+rkb = []
+rk = []
+for i in range(0, 16):
+	# Shifting the bits by nth shifts by checking from shift table
+	left = shift_left(left, shift_table[i])
+	right = shift_left(right, shift_table[i])
+
+	# Combination of left and right string
+	combine_str = left + right
+
+	# Compression of key from 56 to 48 bits
+	round_key = permute(combine_str, key_comp, 48)
+
+	rkb.append(round_key)
+	rk.append(bin2hex(round_key))
+```
+`rkb` untuk menyimpan subkunci biner 48-bit dan `rk` menyimpan dalam format heksadesimal selama proses iterasi
+
+```
+left = shift_left(left, shift_table[i])
+right = shift_left(right, shift_table[i])
+```
+`shift_left` untuk melakukan penggeseran ke kiri dan penggeseran itu sejumlah langkah yang telah ditentukan oleh `shift_table[i]`
+
 ## Reference
 
 https://www.geeksforgeeks.org/data-encryption-standard-des-set-1/
@@ -223,3 +332,5 @@ https://www.youtube.com/watch?v=cVhlCzmb-v0&ab_channel=ChiragBhalodia
 https://www.tutorialspoint.com/what-is-initial-permutation-in-des
 
 https://www.rapidtables.com/convert/number/binary-to-decimal.html
+
+https://www.cs.cornell.edu/courses/cs100/2000sp/p7/node11.html#:~:text=Why%20the%20term%20inverse%3F,you%20produce%20the%20original%20plaintext.

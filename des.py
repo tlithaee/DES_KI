@@ -101,7 +101,6 @@ def xor(a, b):
 			ans = ans + "1"
 	return ans
 
-
 # Table of Position of 64 bits at initial level: Initial Permutation Table
 initial_perm = [58, 50, 42, 34, 26, 18, 10, 2,
 				60, 52, 44, 36, 28, 20, 12, 4,
@@ -290,6 +289,7 @@ cipher_text = bin2hex(encrypt(pt, rkb, rk))
 print("Cipher Text : ", cipher_text)
 
 print("Decryption")
+# membalikkan urutan karena selama proses enkripsi itu terbalik
 rkb_rev = rkb[::-1]
 rk_rev = rk[::-1]
 text = bin2hex(encrypt(cipher_text, rkb_rev, rk_rev))

@@ -7,6 +7,8 @@
 ## Daftar Isi
 - [Opening](#opening)
 - [Code](#Code)
+- [Server](#server)
+- [Client](#client)
 - [Reference](#Reference)
 
 ## Opening
